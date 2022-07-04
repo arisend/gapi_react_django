@@ -12,7 +12,7 @@ def tg_action(text_var,method,chat_id):
 
 def open_db_connection():
     """This function open db connection"""
-    return psycopg2.connect(database="postgres", user="postgres", password="12345", host="db", port="5432")
+    return psycopg2.connect(database="postgres", user="postgres", password="12345", host="localhost", port="5432")
 
 
 def check_db_for_outdated_orders():
