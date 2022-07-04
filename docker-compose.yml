@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  hook:
+    build:
+      context: \Webhook
+      dockerfile: \Dockerfile
+    container_name: webhook
+    command: python webhook.py
+    depends_on:
+      - db
+
+  ui:
+    build:
+      context: \frontend
+      dockerfile: \Dockerfile
+    container_name: front
+    command: npm run start
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+      - db
+
+  api:
+    build:
+      context: \gl_sheets_one_page
+      dockerfile: \Dockerfile
+    container_name: back
+    ports:
+      - 8000:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-alpine
+    user: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=postgres
+      - PGUSER=postgres
+    ports:
+      - 5432:5432
+
+volumes:
+  pgdata:
+    driver: local
+  pgconf:
+    driver: local
+  pglog: 
+    driver: local
