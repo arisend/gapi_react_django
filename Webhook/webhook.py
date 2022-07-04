@@ -68,7 +68,7 @@ def update_table():
         # Call the Sheets API
         sheet = service.spreadsheets()
         result = sheet.values().get(spreadsheetId=r'1nmYlA6X2tncvq9XQhSqtWVqLtoLWUfSHpM-qOrnMjrg',
-                                    range='Лист1!A2:D100000').execute()
+                                    range='Лист1!A2:D100').execute()
         values = result.get('values', [])
 
         if not values:
